@@ -121,8 +121,8 @@ const Register = () => {
           required
           aria-invalid={validPwd ? "false" : "true"}
           aria-describedby="pwdnote"
-          onFocus={() => setUserFocus(true)}
-          onBlur={() => setUserFocus(false)}
+          onFocus={() => setPwdFocus(true)}
+          onBlur={() => setPwdFocus(false)}s
         ></input>
         <p
           id="pwdnote"
@@ -134,10 +134,11 @@ const Register = () => {
           Must include uppercase and lowercase letters, a number and special
           character.
           <br />
-          allowed special character characters:{" "}
-          <span arial-label="exclamation mark">
-            
-          </span>
+          Allowed special character characters:{" "}
+          <span arial-label="exclamation mark">!</span>
+          <span aria-label="at symbol">@</span>
+          <span arial-label="hashtag">#</span>
+          <span aria-label="dollar sign">$</span>
         </p>
       </form>
     </section>
