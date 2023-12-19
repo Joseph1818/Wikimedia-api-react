@@ -12,7 +12,7 @@ const Login = () => {
 
   // setting focus on the input when the components load.
   useEffect(() => {
-    // userRef.current.focus();
+    userRef.current.focus();
   }, []);
 
   // Empty out errors messages, if the user changes the user, pwd.
@@ -21,7 +21,7 @@ const Login = () => {
   }, [user, pwd]);
 
   const handleSubmit = async (e) => {
-    e.prevent.default();
+    e.preventDefault();
     console.log(user, pwd);
     setUser("");
     setPwd("");
@@ -32,11 +32,14 @@ const Login = () => {
     <>
       {sucess ? (
         <section>
-          <h1> Your logged in!</h1>
+          <h1> Home</h1>
+          <br />
+          <h3> Your are logged in!</h3>
           <br />
           <p>
             <a href="#"> Go to Home!</a>
           </p>
+          <button href="#"> Sign out</button>
         </section>
       ) : (
         <section>
