@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 
 const Login = () => {
   // setting focus.
@@ -22,7 +23,18 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(user, pwd);
+    axios
+      .post(" https://auth.enterprise.wikimedia.com/v1/login", {
+        username: user,
+        password: pwd,
+      })
+      .then((reponse) => {
+        console.log(reponse.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(err.reponse);
+      });
     setUser("");
     setPwd("");
     setSuccess(true);
