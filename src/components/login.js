@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   // setting focus.
@@ -49,9 +50,8 @@ const Login = () => {
           <h3> Your are logged in!</h3>
           <br />
           <p>
-            <a href="#"> Go to Home!</a>
+            <a href="/"> Go to Home!</a>
           </p>
-          <button href="#"> Sign out</button>
         </section>
       ) : (
         <section>
@@ -65,9 +65,9 @@ const Login = () => {
           </p>
           <h1>Sign In</h1>
           <form onSubmit={handleSubmit}>
-            <label htmlFor="username">Username:</label>
             <input
               type="text"
+              placeholder="Please insert username"
               id="username"
               ref={userRef}
               autoComplete="off"
@@ -76,9 +76,9 @@ const Login = () => {
               required
             />
 
-            <label htmlFor="password">Password:</label>
             <input
               type="password"
+              placeholder="Please insert password"
               id="password"
               onChange={(e) => setPwd(e.target.value)}
               value={pwd}
@@ -91,11 +91,11 @@ const Login = () => {
             Forgot password? <br />
             <span className="line">
               {/* put rooter link */}
-              <a href="#">Click here !</a>
+              <a href="/forgotPwd">Click here !</a>
             </span>
           </p>
         </section>
-      )}{" "}
+      )}
     </>
   );
 };

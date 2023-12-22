@@ -1,11 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function ForgotPassword() {
   // Setting focus on user input field.
   const userRef = useRef();
+  const navigate = useNavigate();
 
   const [user, setUser] = useState("");
+  const [pwd, setPwd] = useState();
+  const [code, setCode] = useState();
+
   const [userFocus, setUserFocus] = useState(false);
 
   useEffect(() => {
@@ -13,7 +18,6 @@ function ForgotPassword() {
   }, []);
 
   const [errMsg, setErrMsg] = useState(false);
-  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,8 +33,9 @@ function ForgotPassword() {
         console.log(err.reponse);
       });
     setUser("");
-    setSuccess(true);
+    navigate("/confirmationtPwd");
   };
+
   return (
     <section>
       <p className={errMsg ? "errmsg" : "offScreen"} aria-live="assertive">
@@ -41,9 +46,9 @@ function ForgotPassword() {
       <h5> Enter your Username </h5>
 
       <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username :</label>
         <input
           type="text"
+          placeholder="Please enter username"
           id="username"
           ref={userRef}
           autoComplete="off"
@@ -51,7 +56,6 @@ function ForgotPassword() {
           value={user}
           required
         />
-
         <button>Continue</button>
       </form>
     </section>
