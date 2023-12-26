@@ -129,6 +129,7 @@ const Register = () => {
               Letters,numbers, underscores,Hyphens allowed.
             </p>
 
+
             <label htmlFor="password">
               Password:
               <span className={validPwd ? "valid" : "hide"}>
@@ -138,7 +139,6 @@ const Register = () => {
                 <FontAwesomeIcon icon={faTimes} />
               </span>
             </label>
-
             <input
               type="password"
               id="password"
@@ -166,6 +166,9 @@ const Register = () => {
               <span arial-label="hashtag">#</span>
               <span aria-label="dollar sign">$</span>
             </p>
+
+
+
 
             <label htmlFor="confirm_pwd">
               Confim_pwd:

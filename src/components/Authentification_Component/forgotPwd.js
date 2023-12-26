@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 function ForgotPassword() {
   // Setting focus on user input field.
   const userRef = useRef();
+  const errRef = useRef();
   const navigate = useNavigate();
 
   const [user, setUser] = useState("");
@@ -27,13 +28,15 @@ function ForgotPassword() {
       })
       .then((reponse) => {
         console.log(reponse.data);
+        navigate("/confirmationtPwd");
       })
       .catch((err) => {
-        console.log(err);
-        console.log(err.reponse);
+        if (!err.reponse) {
+          setErrMsg("Incorrect username please try again!");
+        }
+        errRef.current.focus();
       });
     setUser("");
-    navigate("/confirmationtPwd");
   };
 
   return (
@@ -41,6 +44,7 @@ function ForgotPassword() {
       <p className={errMsg ? "errmsg" : "offScreen"} aria-live="assertive">
         {errMsg}
       </p>
+
       <h1>Forgot Password</h1>
       <br />
       <h5> Enter your Username </h5>
@@ -56,7 +60,7 @@ function ForgotPassword() {
           value={user}
           required
         />
-        <button>Continue</button>
+        <button onClick={handleSubmit}>Continue</button>
       </form>
     </section>
   );

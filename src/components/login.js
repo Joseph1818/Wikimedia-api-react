@@ -1,6 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import {
+  faCheck,
+  faTimes,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 const Login = () => {
   // setting focus.
@@ -8,7 +16,12 @@ const Login = () => {
   const errRef = useRef();
 
   const [user, setUser] = useState();
+  const [userFocus, setUserFocus] = useState(false);
+
   const [pwd, setPwd] = useState();
+  const [validPwd, setValidPwd] = useState(false);
+  const [pwdFocus, setPwdFocus] = useState(false);
+
   const [errMsg, setErrMsg] = useState();
   const [sucess, setSuccess] = useState();
 
@@ -21,9 +34,28 @@ const Login = () => {
   useEffect(() => {
     setErrMsg("");
   }, [user, pwd]);
+  // Checking if the password input matches our Regex Password.
+  useEffect(() => {
+    const result = PWD_REGEX.test(pwd);
+    console.log(result);
+    console.log(pwd);
+    setValidPwd(result);
+  }, [pwd]);
+
+  // error message useEffect.
+  useEffect(() => {
+    setErrMsg("");
+  }, [pwd]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const v2 = PWD_REGEX.test(pwd);
+    if (!v2) {
+      setErrMsg("Invalid Entry");
+      return;
+    }
+
     axios
       .post(" https://auth.enterprise.wikimedia.com/v1/login", {
         username: user,
@@ -31,14 +63,16 @@ const Login = () => {
       })
       .then((reponse) => {
         console.log(reponse.data);
+        setSuccess(true);
       })
       .catch((err) => {
-        console.log(err);
-        console.log(err.reponse);
+        if (!err.reponse) {
+          setErrMsg("Incorrect Password or username please try again");
+        }
+        errRef.current.focus();
       });
     setUser("");
     setPwd("");
-    setSuccess(true);
   };
 
   return (
@@ -63,11 +97,13 @@ const Login = () => {
             {" "}
             {errMsg}
           </p>
+
           <h1>Sign In</h1>
+
           <form onSubmit={handleSubmit}>
+            <label htmlFor="username">Username:</label>
             <input
               type="text"
-              placeholder="Please insert username"
               id="username"
               ref={userRef}
               autoComplete="off"
@@ -76,17 +112,44 @@ const Login = () => {
               required
             />
 
+            <label htmlFor="password">
+              Password:
+              <span className={validPwd ? "valid" : "hide"}>
+                <FontAwesomeIcon icon={faCheck} />
+              </span>
+              <span className={validPwd || !pwd ? "hide" : "invalid"}>
+                <FontAwesomeIcon icon={faTimes} />
+              </span>
+            </label>
+
             <input
               type="password"
-              placeholder="Please insert password"
               id="password"
               onChange={(e) => setPwd(e.target.value)}
-              value={pwd}
               required
-            />
+              aria-invalid={validPwd ? "false" : "true"}
+              aria-describedby="pwdnote"
+              onFocus={() => setPwdFocus(true)}
+              onBlur={() => setPwdFocus(false)}
+              s
+            ></input>
+            <p
+              id="pwdnote"
+              className={pwdFocus && !validPwd ? "instructions" : "offscreen"}
+            >
+              <FontAwesomeIcon icon={faInfoCircle} />
+              8 to 24 characters.
+              <br />
+              Must include uppercase and lowercase letters, a number and special
+              character.
+              <span arial-label="exclamation mark">!</span>
+              <span aria-label="at symbol">@</span>
+              <span arial-label="hashtag">#</span>
+              <span aria-label="dollar sign">$</span>
+            </p>
+
             <button> Sign In </button>
           </form>
-
           <p>
             Forgot password? <br />
             <span className="line">

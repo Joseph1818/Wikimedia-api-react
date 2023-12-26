@@ -1,16 +1,47 @@
 import React from "react";
 import axios from "axios";
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  faCheck,
+  faTimes,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+
+// setting focus on the input when the components load.
 
 function ConfirmationForgotPwd() {
+  const navigate = useNavigate();
   const userRef = useRef();
+  const errRef = useRef();
 
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState();
   const [code, setCode] = useState();
 
-  const handleSubmitConfirm = (e) => {
+  const [validPwd, setValidPwd] = useState(false);
+  const [pwdFocus, setPwdFocus] = useState(false);
+
+  const [errMsg, setErrMsg] = useState();
+
+  useEffect(() => {
+    const result = PWD_REGEX.test(pwd);
+    console.log(result);
+    console.log(pwd);
+    setValidPwd(result);
+  }, [pwd]);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
+
+    const v2 = PWD_REGEX.test(pwd);
+    if (!v2) {
+      setErrMsg("Invalid Entry");
+      return;
+    }
     axios
       .post(
         " https://auth.enterprise.wikimedia.com/v1/forgot-password-confirm",
@@ -22,13 +53,15 @@ function ConfirmationForgotPwd() {
       )
       .then((reponse) => {
         console.log(reponse.data);
-        alert("password successfully change!");
+        navigate("/sucessPwdChange");
       })
       .catch((err) => {
-        console.log(err);
-        console.log(err.reponse);
+        if (!err.reponse) {
+          setErrMsg("Incorrect Password or username please try again");
+        }
       });
     setUser("");
+    alert("your password was succsefully changed!");
   };
 
   return (
@@ -42,10 +75,10 @@ function ConfirmationForgotPwd() {
       </h5>
       <br />
 
-      <form onSubmit={handleSubmitConfirm}>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="username">Username:</label>
         <input
           type="text"
-          placeholder="please enter username"
           id="username"
           ref={userRef}
           autoComplete="off"
@@ -53,27 +86,53 @@ function ConfirmationForgotPwd() {
           value={user}
           required
         />
-        <input
-          type="text"
-          placeholder="please enter new password"
-          id="password"
-          autoComplete="off"
-          onChange={(e) => setPwd(e.target.value)}
-          value={pwd}
-          required
-        />
 
+        <label htmlFor="password">
+          Password:
+          <span className={validPwd ? "valid" : "hide"}>
+            <FontAwesomeIcon icon={faCheck} />
+          </span>
+          <span className={validPwd || !pwd ? "hide" : "invalid"}>
+            <FontAwesomeIcon icon={faTimes} />
+          </span>
+        </label>
         <input
           type="password"
-          placeholder="please enter code"
+          id="password"
+          onChange={(e) => setPwd(e.target.value)}
+          required
+          aria-invalid={validPwd ? "false" : "true"}
+          aria-describedby="pwdnote"
+          onFocus={() => setPwdFocus(true)}
+          onBlur={() => setPwdFocus(false)}
+          s
+        ></input>
+        <p
+          id="pwdnote"
+          className={pwdFocus && !validPwd ? "instructions" : "offscreen"}
+        >
+          <FontAwesomeIcon icon={faInfoCircle} />
+          8 to 24 characters.
+          <br />
+          Must include uppercase and lowercase letters, a number and special
+          character.
+          <span arial-label="exclamation mark">!</span>
+          <span aria-label="at symbol">@</span>
+          <span arial-label="hashtag">#</span>
+          <span aria-label="dollar sign">$</span>
+        </p>
+
+        <label htmlFor="username">OTP-Code:</label>
+        <input
+          type="password"
           id="code"
           autoComplete="off"
           onChange={(e) => setCode(e.target.value)}
           value={code}
           required
         />
+        <button onClick={handleSubmit}> Submit </button>
       </form>
-      <button href="#"> Submit </button>
     </section>
   );
 }
