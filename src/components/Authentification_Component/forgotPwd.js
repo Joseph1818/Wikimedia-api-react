@@ -48,7 +48,6 @@ function ForgotPassword() {
       <h1>Forgot Password</h1>
       <br />
       <h5> Enter your Username </h5>
-
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -60,7 +59,7 @@ function ForgotPassword() {
           value={user}
           required
         />
-        <button onClick={handleSubmit}>Continue</button>
+        <button onClick={handleSubmit}>Send Email</button>
       </form>
     </section>
   );

@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 // setting focus on the input when the components load.
@@ -37,11 +38,13 @@ function ConfirmationForgotPwd() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const v2 = PWD_REGEX.test(pwd);
-    if (!v2) {
-      setErrMsg("Invalid Entry");
-      return;
-    }
+    // const v1 = USER_REGEX.test(user);
+    // const v2 = PWD_REGEX.test(pwd);
+    // if (!v1 || !v2) {
+    //   setErrMsg("Invalid Entry");
+    //   return;
+    // }
+
     axios
       .post(
         " https://auth.enterprise.wikimedia.com/v1/forgot-password-confirm",
@@ -70,8 +73,7 @@ function ConfirmationForgotPwd() {
       <br />
       <h5>
         {" "}
-        Please enter a new password & confirmation code sent in your E-mail
-        adress.{" "}
+        WE'VE JUST SENT YOU AN EMAIL WITH A CODE TO RESET YOUR PASSWORD.{" "}
       </h5>
       <br />
 

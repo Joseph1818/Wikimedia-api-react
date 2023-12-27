@@ -93,7 +93,6 @@ const Register = () => {
             {errMsg}
           </p>
           <h1>Register</h1>
-
           <form onSubmit={handleSubmit}>
             <label htmlFor="username">
               Username:
@@ -128,7 +127,6 @@ const Register = () => {
               Must begin with a letter. <br />
               Letters,numbers, underscores,Hyphens allowed.
             </p>
-
 
             <label htmlFor="password">
               Password:
@@ -166,10 +164,6 @@ const Register = () => {
               <span arial-label="hashtag">#</span>
               <span aria-label="dollar sign">$</span>
             </p>
-
-
-
-
             <label htmlFor="confirm_pwd">
               Confim_pwd:
               <span className={validMatch && matchPwd ? "valid" : "hide"}>
@@ -179,7 +173,6 @@ const Register = () => {
                 <FontAwesomeIcon icon={faTimes} />
               </span>
             </label>
-
             <input
               type="password"
               id="confirm_pwd"

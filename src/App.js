@@ -1,6 +1,6 @@
 import "./App.css";
-import Register from "./components/register";
-import Login from "./components/login";
+import Register from "./components/Authentification_Component/register";
+import Login from "./components/Authentification_Component/login";
 import ForgotPassword from "./components/Authentification_Component/forgotPwd";
 import ConfirmationForgotPwd from "./components/Authentification_Component/confirmationForgotPwd";
 import { Link, Routes, Route, BrowserRouter } from "react-router-dom";

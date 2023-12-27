@@ -147,7 +147,6 @@ const Login = () => {
               <span arial-label="hashtag">#</span>
               <span aria-label="dollar sign">$</span>
             </p>
-
             <button> Sign In </button>
           </form>
           <p>
