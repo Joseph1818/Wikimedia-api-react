@@ -5,6 +5,7 @@ import ForgotPassword from "./components/Authentification_Component/forgotPwd";
 import ConfirmationForgotPwd from "./components/Authentification_Component/confirmationForgotPwd";
 import { Link, Routes, Route, BrowserRouter } from "react-router-dom";
 import SuccessPwdChangePage from "./components/Authentification_Component/successPwdChangePage";
+import Home from "./components/pages/home";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="forgotPwd" element={<ForgotPassword />} />
           <Route path="confirmationtPwd" element={<ConfirmationForgotPwd />} />
           <Route path="sucessPwdChange" element={<SuccessPwdChangePage />} />
+          <Route path="home" element={<Home />} />
         </Routes>
       </BrowserRouter>
     </main>
