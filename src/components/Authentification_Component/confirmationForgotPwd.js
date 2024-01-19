@@ -90,7 +90,7 @@ function ConfirmationForgotPwd() {
         />
 
         <label htmlFor="password">
-          Password:
+          New Password:
           <span className={validPwd ? "valid" : "hide"}>
             <FontAwesomeIcon icon={faCheck} />
           </span>

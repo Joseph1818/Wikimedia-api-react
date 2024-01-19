@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import "./home.css";
 
 function Home() {
   let wikimediaProjectUrl =
@@ -22,7 +23,7 @@ function Home() {
   });
 
   return (
-    <section>
+    <section className="section1">
       <h1> Home</h1>
       <br />
       <h3> Your are logged in!</h3>
